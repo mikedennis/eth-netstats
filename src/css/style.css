@@ -74,6 +74,10 @@ table td {
 	color: #ff8a00;
 }
 
+.text-cyan {
+	color: cyan;
+}
+
 .container-fluid {
 	padding-left: 30px;
 	padding-right: 30px;

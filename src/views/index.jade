@@ -3,6 +3,35 @@ extends ./layout.jade
 
 block content
   div.container-fluid(ng-controller='StatsCtrl')
+
+    // private network funds - added to top row
+    div.row(ng-cloak)
+      div.col-xs-2.stat-holder
+        div.big-info.ethtotal.text-cyan
+          div.pull-left.icon-full-width
+            i.icon-hashrate
+          div.big-details-holder
+            span.small-title total funds
+            span.big-details {{ ethFundTotal | currency }}
+          div.clearfix
+      div.col-xs-2.stat-holder
+        div.big-info.ethdeposit.text-cyan
+          div.pull-left.icon-full-width
+            i.icon-hashrate
+          div.big-details-holder
+            span.small-title deposits
+            span.big-details {{ ethFundDeposits | currency }}
+          div.clearfix
+      div.col-xs-2.stat-holder
+        div.big-info.ethwithdrawl.text-cyan
+          div.pull-left.icon-full-width
+            i.icon-hashrate
+          div.big-details-holder
+            span.small-title withdrawls
+            span.big-details {{ ethFundWithdrawls | currency }}
+          div.clearfix
+      div.clearfix
+
     div.row(ng-cloak)
       div.col-xs-2.stat-holder
         div.big-info.bestblock.text-info

@@ -21,6 +21,11 @@ netStatsApp.controller('StatsCtrl', function($scope, $filter, $localStorage, soc
 	$scope.uncleCount = 0;
 	$scope.bestStats = {};
 
+	// Stats for private net fund totals
+	$scope.ethFundTotal = 0;
+	$scope.ethFundDeposits = 0;
+	$scope.ethFundWithdrawls = 0;
+
 	$scope.lastGasLimit = _.fill(Array(MAX_BINS), 2);
 	$scope.lastBlocksTime = _.fill(Array(MAX_BINS), 2);
 	$scope.difficultyChart = _.fill(Array(MAX_BINS), 2);
@@ -100,6 +105,29 @@ netStatsApp.controller('StatsCtrl', function($scope, $filter, $localStorage, soc
 	$scope.getNumber = function (num) {
 		return new Array(num);
 	}
+
+	// Do polling for updating eth funds
+	poll("http://40.85.254.127:8081/api/Crypto/Summary", "GET", 60000,
+		function onSuccess(xhr) {
+			var data = JSON.parse(xhr.responseText);
+			var deposits = data["MEMBERS"];
+			var withdrawls = data["SWAG"];
+			var totalfunds = deposits + withdrawls;
+			$scope.ethFundDeposits = deposits;
+			$scope.ethFundWithdrawls = withdrawls;
+			$scope.ethFundTotal = totalfunds;
+		},
+		function onError(xhr, sendRequest, period) {
+			console.error('http://40.85.254.127:8081/api/Crypto/Summary', xhr.status, xhr.responseText);
+			if (xhr.status === 401) {
+				// show dialog to log in user
+			}
+			else {
+				// retry the operation with longer timeout (busy)
+				setTimeout(sendRequest, period + 60000);
+			}
+		}
+	);
 
 	// Socket listeners
 	// ----------------
@@ -650,5 +678,29 @@ netStatsApp.controller('StatsCtrl', function($scope, $filter, $localStorage, soc
 			return obj.replace(/\< *\/* *script *>*/gi,'').replace(/javascript/gi,'');
 		} else
 			return obj;
+	}
+
+	function poll(url, method, period, onSuccess, onError) {
+		var xhr = new XMLHttpRequest(),
+			onReadyStateChange= function() {
+				if (this.readyState === 4) {
+					if (this.status === 200 || this.status === 201) {
+						onSuccess(xhr);
+						setTimeout(sendRequest, period);
+					}
+					else if (this.status > 399) {
+						// Allow error handling code to retry the operation
+						onError(xhr, sendRequest, period);
+					}
+				}
+			},
+			sendRequest = function() {
+				xhr.open(method, url, true);
+				xhr.send();
+			};
+	
+		xhr.onreadystatechange = onReadyStateChange;
+	
+		setTimeout(sendRequest, period);
 	}
 });
