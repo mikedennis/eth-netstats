@@ -21,3 +21,6 @@
 .icon-uncle { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe813;&nbsp;'); }
 .icon-hashrate { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe814;&nbsp;'); }
 .icon-gasprice { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe815;&nbsp;'); }
+.icon-deposit:before { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe901;&nbsp;');  } 
+.icon-fund:before { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe903;&nbsp;'); } 
+.icon-withdrawal:before { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe905;&nbsp;'); } 

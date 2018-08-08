@@ -24,7 +24,7 @@ netStatsApp.controller('StatsCtrl', function($scope, $filter, $localStorage, soc
 	// Stats for private net fund totals
 	$scope.ethFundTotal = 0;
 	$scope.ethFundDeposits = 0;
-	$scope.ethFundWithdrawls = 0;
+	$scope.ethFundWithdrawals = 0;
 
 	$scope.lastGasLimit = _.fill(Array(MAX_BINS), 2);
 	$scope.lastBlocksTime = _.fill(Array(MAX_BINS), 2);
@@ -111,10 +111,10 @@ netStatsApp.controller('StatsCtrl', function($scope, $filter, $localStorage, soc
 		function onSuccess(xhr) {
 			var data = JSON.parse(xhr.responseText);
 			var deposits = data["MEMBERS"];
-			var withdrawls = data["SWAG"];
-			var totalfunds = deposits + withdrawls;
+			var withdrawals = data["SWAG"];
+			var totalfunds = deposits + withdrawals;
 			$scope.ethFundDeposits = deposits;
-			$scope.ethFundWithdrawls = withdrawls;
+			$scope.ethFundWithdrawals = withdrawals;
 			$scope.ethFundTotal = totalfunds;
 		},
 		function onError(xhr, sendRequest, period) {
